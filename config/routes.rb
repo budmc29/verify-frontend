@@ -55,6 +55,7 @@ Rails.application.routes.draw do
     get 'cookies', to: redirect("#{API_HOST}/cookies"), as: :cookies
     get 'forgot-company', to: redirect("#{API_HOST}/forgot-company"), as: :forgot_company
     get 'unlikely-to-verify', to: redirect("#{API_HOST}/unlikely-to-verify"), as: :unlikely_to_verify
+    get 'other-ways-to-access-service', to: redirect("#{API_HOST}/other-ways-to-access-service"), as: :other_ways_to_access_service
   else
     get 'confirm-your-identity', to: 'confirm_your_identity#index', as: :confirm_your_identity
     get 'feedback', to: 'feedback#index', as: :feedback
@@ -62,6 +63,7 @@ Rails.application.routes.draw do
     get 'cookies', to: 'cookies#index', as: :cookies
     get 'forgot-company', to: 'forgot_company#index', as: :forgot_company
     get 'unlikely-to-verify', to: 'unlikely_to_verify#index', as: :unlikely_to_verify
+    get 'other-ways-to-access-service', to: 'other_ways_to_access_service#index', as: :other_ways_to_access_service
   end
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
