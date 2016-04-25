@@ -45,6 +45,8 @@ Rails.application.routes.draw do
   put 'select-idp', to: 'select_idp#select_idp', as: :select_idp
   get 'service-status', to: 'service_status#index', as: :service_status
 
+  get 'redirect-to-idp-warning', to: 'redirect_to_idp_warning#index', as: :redirect_to_idp_warning
+  post 'redirect-to-idp-warning', to: 'redirect_to_idp_warning#continue', as: :redirect_to_idp_warning_submit
 
   if Rails.env == 'development'
     get 'confirm-your-identity', to: redirect("#{API_HOST}/confirm-your-identity"), as: :confirm_your_identity
@@ -53,8 +55,6 @@ Rails.application.routes.draw do
     get 'cookies', to: redirect("#{API_HOST}/cookies"), as: :cookies
     get 'forgot-company', to: redirect("#{API_HOST}/forgot-company"), as: :forgot_company
     get 'unlikely-to-verify', to: redirect("#{API_HOST}/unlikely-to-verify"), as: :unlikely_to_verify
-    get 'redirect-to-idp-warning', to: redirect("#{API_HOST}/redirect-to-idp-warning"), as: :redirect_to_idp_warning
-    post 'redirect-to-idp-warning', to: redirect("#{API_HOST}/redirect-to-idp-warning"), as: :redirect_to_idp_warning_submit
   else
     get 'confirm-your-identity', to: 'confirm_your_identity#index', as: :confirm_your_identity
     get 'feedback', to: 'feedback#index', as: :feedback
@@ -62,8 +62,6 @@ Rails.application.routes.draw do
     get 'cookies', to: 'cookies#index', as: :cookies
     get 'forgot-company', to: 'forgot_company#index', as: :forgot_company
     get 'unlikely-to-verify', to: 'unlikely_to_verify#index', as: :unlikely_to_verify
-    get 'redirect-to-idp-warning', to: 'redirect_to_idp_warning#index', as: :redirect_to_idp_warning
-    post 'redirect-to-idp-warning', to: 'redirect_to_idp_warning#continue', as: :redirect_to_idp_warning_submit
   end
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
