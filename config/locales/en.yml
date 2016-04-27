@@ -24,10 +24,6 @@ en:
   option:
     no: No
     unknown: I don’t know
-  phase_banner:
-    title: This is a trial service.
-    feedback_message: Your %{feedback_link} will help us to improve it.
-    feedback: feedback
   hub:
     other_ways_heading: Other ways to %{other_ways_description}
     start:
