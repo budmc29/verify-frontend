@@ -1,3 +1,5 @@
 simpleIds: [ "example-idp", "example-idp-stub" ]
-rules:
+recommended_rules:
   - [ "passport", "driving_licence" ]
+non_recommended_rules:
+  - [ "passport", "mobile_phone" ]
