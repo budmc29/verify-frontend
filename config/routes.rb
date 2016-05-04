@@ -14,6 +14,8 @@ Rails.application.routes.draw do
     mount JasmineRails::Engine => '/specs' if defined?(JasmineRails)
     get 'test-saml' => 'test_saml#index'
     post 'test-idp-request-endpoint' => 'test_saml#idp_request'
+    get 'test-journey-hint' => 'test_journey_hint_cookie#index', as: :test_journey_hint
+    post 'test-journey-hint' => 'test_journey_hint_cookie#set_cookie', as: :test_journey_hint_submit
   end
 
   localized do
@@ -57,13 +59,14 @@ Rails.application.routes.draw do
   get 'why-companies-cy', to: 'why_companies#index', locale: :cy
   get 'dewis-ffôn', to: 'select_phone#index', locale: :cy
   post 'dewis-ffôn', to: 'select_phone#select_phone', locale: :cy
+  get 'confirm-your-identity-cy', to: 'confirm_your_identity#index', locale: :cy
   # /Temporary
 
+  get 'confirm-your-identity', to: 'confirm_your_identity#index', as: :confirm_your_identity
   get '/redirect-to-service/error', to: redirect("#{API_HOST}/redirect-to-service/error")
   put 'select-idp', to: 'select_idp#select_idp', as: :select_idp
   get 'service-status', to: 'service_status#index', as: :service_status
   get '/assets2/fp.gif', to: proc { |_| [200, {}, ['OK']] }
-  get 'confirm-your-identity', to: 'confirm_your_identity#index', as: :confirm_your_identity
 
   if Rails.env == 'development'
     get 'feedback', to: redirect("#{API_HOST}/feedback")
