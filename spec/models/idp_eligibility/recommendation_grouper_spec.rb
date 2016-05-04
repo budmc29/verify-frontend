@@ -1,4 +1,4 @@
-require 'idp_eligibility/rules_repository'
+require 'idp_eligibility/profile_filter'
 require 'idp_eligibility/recommendation_grouper'
 require 'idp_eligibility/filter'
 require 'idp_eligibility/profile'
@@ -13,9 +13,9 @@ module IdpEligibility
       let(:multiple_idps) { [idp_one, idp_two] }
       let(:passport_profile) { Profile.new([:passport]) }
       let(:driving_licence_profile) { Profile.new([:driving_licence]) }
-      let(:recommended_rules) { RulesRepository.new('idp' => [passport_profile]) }
-      let(:non_recommended_rules) { RulesRepository.new('idp' => [driving_licence_profile], 'idp2' => [passport_profile]) }
-      let(:grouper) { RecommendationGrouper.new(recommended_rules, non_recommended_rules) }
+      let(:recommended_profile_filter) { ProfileFilter.new('idp' => [passport_profile]) }
+      let(:non_recommended_profile_filter) { ProfileFilter.new('idp' => [driving_licence_profile], 'idp2' => [passport_profile]) }
+      let(:grouper) { RecommendationGrouper.new(recommended_profile_filter, non_recommended_profile_filter) }
 
       it 'should return recommended idps' do
         user_docs = [:passport]

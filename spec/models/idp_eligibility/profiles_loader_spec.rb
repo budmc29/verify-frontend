@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'idp_eligibility/rules_repository'
+require 'idp_eligibility/profile_filter'
 require 'idp_eligibility/profiles_loader'
 require 'idp_eligibility/profile'
 
@@ -12,7 +12,7 @@ module IdpEligibility
     describe '#load' do
       it 'should load recommended profiles from YAML files' do
         evidence = [Profile.new(%i(passport driving_licence))]
-        profiles_repository = RulesRepository.new(
+        profiles_repository = ProfileFilter.new(
           'example-idp' => evidence,
           'example-idp-stub' => evidence
         )
@@ -21,7 +21,7 @@ module IdpEligibility
 
       it 'should load non recommended profiles from YAML files' do
         evidence = [Profile.new(%i(passport mobile_phone))]
-        profiles_repository = RulesRepository.new(
+        profiles_repository = ProfileFilter.new(
           'example-idp' => evidence,
           'example-idp-stub' => evidence
         )
@@ -30,7 +30,7 @@ module IdpEligibility
 
       it 'should load all profiles from YAML files' do
         evidence = [Profile.new(%i{passport driving_licence}), Profile.new(%i(passport mobile_phone))]
-        profiles_repository = RulesRepository.new(
+        profiles_repository = ProfileFilter.new(
           'example-idp' => evidence,
           'example-idp-stub' => evidence
         )
@@ -39,7 +39,7 @@ module IdpEligibility
 
       it 'should supply a seperate repository of document profiles' do
         evidence = [Profile.new(%i{passport driving_licence}), Profile.new(%i(passport))]
-        profiles_repository = RulesRepository.new(
+        profiles_repository = ProfileFilter.new(
           'example-idp' => evidence,
           'example-idp-stub' => evidence
         )
@@ -53,7 +53,7 @@ module IdpEligibility
       end
 
       it 'should return an empty object when no yaml files found' do
-        expect(ProfilesLoader.new(fixtures).load.all_profiles).to eq(RulesRepository.new({}))
+        expect(ProfilesLoader.new(fixtures).load.all_profiles).to eq(ProfileFilter.new({}))
       end
     end
   end
