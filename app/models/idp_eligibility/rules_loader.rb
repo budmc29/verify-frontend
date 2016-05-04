@@ -38,7 +38,7 @@ module IdpEligibility
         yaml = YAML::load_file(file)
         idp_rules = yaml.fetch(type)
         yaml.fetch('simpleIds').each do |simple_id|
-          rules[simple_id] = idp_rules.map { |rule| rule.map(&:to_sym) }
+          rules[simple_id] = idp_rules.map { |rule| Profile.new(rule) }
         end
         rules
       end
