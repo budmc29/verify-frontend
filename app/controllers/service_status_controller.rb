@@ -1,11 +1,11 @@
 class ServiceStatusController < ApplicationController
-  skip_before_action :validate_cookies
+  skip_before_action :validate_session
 
   def index
     if ServiceStatus.unavailable?
-      render nothing: true, status: 503
+      head 503
     else
-      render nothing: true, status: 200
+      head 200
     end
   end
 end

@@ -1,13 +1,16 @@
 //= require fingerprint2
 
-(function (exports) {
+(function(global) {
    'use strict';
+
+    // By default Fingerprint2 logs things to the console. This setting disables logging:
+    global.NODEBUG = null;
 
     // based on jQuery's param implementation https://github.com/jquery/jquery/blob/master/src/serialize.js
     function serialiseComponents(components) {
         var componentsToExclude = ['webgl'];
         var r = [];
-        jQuery.each(components, function() {
+        global.jQuery.each(components, function() {
             if(componentsToExclude.indexOf(this.key) == -1) {
                 r[r.length] = encodeURIComponent(this.key) + "=" + encodeURIComponent(this.value);
             }
@@ -23,5 +26,5 @@
         });
     }
 
-    exports.reportFingerprint = reportFingerprint;
-})(this);
+    global.reportFingerprint = reportFingerprint;
+})(window);

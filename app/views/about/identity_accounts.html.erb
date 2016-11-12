@@ -1,22 +1,20 @@
-<% content_for :page_title, t('hub.about_identity_accounts.title') %>
+<%= page_title 'hub.about_identity_accounts.title' %>
 <% content_for :feedback_source, 'ABOUT_IDENTITY_ACCOUNTS_PAGE' %>
 
-<p><%= t 'hub.about_identity_accounts.content.p1' %></p>
-<p><%= t 'hub.about_identity_accounts.content.p2' %></p>
-<p><%= t 'hub.about_identity_accounts.content.p3' %></p>
+<%= t 'hub.about_identity_accounts.content_html' %>
 
 <div class="actions">
-  <%= link_to t('navigation.start_now'), about_choosing_a_company_path, class: 'button', id: 'next-button' %>
+  <%= button_link_to t('navigation.start_now'), about_choosing_a_company_path, id: 'next-button' %>
 </div>
 
 <details>
   <summary>
     <span class="summary"><%= t 'hub.about_identity_accounts.summary' %></span>
   </summary>
-  <div class="panel-indent">
+  <div class="panel panel-border-narrow">
     <p><%= t 'hub.about_identity_accounts.details' %></p>
     <ul class="list-bullet list">
-      <% transactions_list.public.each do |transaction| -%>
+      <% transactions_list.name_homepage.each do |transaction| -%>
           <li><%= transaction.name %></li>
       <% end %>
     </ul>

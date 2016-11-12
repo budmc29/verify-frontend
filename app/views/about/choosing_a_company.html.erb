@@ -1,13 +1,12 @@
-<% content_for :page_title, t('hub.about_choosing_a_company.title') %>
+<%= page_title 'hub.about_choosing_a_company.title' %>
 <% content_for :feedback_source, 'ABOUT_CHOOSING_A_COMPANY_PAGE' %>
 
 <div class="grid-row">
   <div class="column-two-thirds">
     <h1 class="heading-large"><%= t 'hub.about_choosing_a_company.heading' %></h1>
-    <p><%= t 'hub.about_choosing_a_company.p1' %></p>
-    <p><%= t 'hub.about_choosing_a_company.p2' %></p>
+    <%= t 'hub.about_choosing_a_company.content_html' %>
   </div>
 </div>
 <div class="actions">
-  <%= link_to t('navigation.continue'), select_documents_path, class: 'button', id: 'next-button' %>
+  <%= button_link_to t('navigation.continue'), will_it_work_for_me_path, id: 'next-button' %>
 </div>

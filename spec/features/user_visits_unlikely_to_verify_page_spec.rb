@@ -1,20 +1,21 @@
 require 'feature_helper'
+require 'api_test_helper'
 
 RSpec.describe 'When the user visits the unlikely-to-verify page' do
   before(:each) do
-    set_session_cookies!
+    set_session_and_session_cookies!
     page.set_rack_session(transaction_simple_id: 'test-rp')
   end
 
   it 'displays the page in Welsh' do
-    visit '/unlikely-to-verify-cy'
-    expect(page).to have_content('You need a valid passport, photocard driving licence or national identity card (ID card) to get your identity verified.')
+    visit '/anhebygol-i-ddilysu'
+    expect(page).to have_content('Certified companies need at least 1 more document to verify your identity. To continue with GOV.UK Verify, add more documents.')
     expect(page).to have_css 'html[lang=cy]'
   end
 
   it 'displays the page in English' do
     visit '/unlikely-to-verify'
-    expect(page).to have_content('You need a valid passport, photocard driving licence or national identity card (ID card) to get your identity verified.')
+    expect(page).to have_content('Certified companies need at least 1 more document to verify your identity. To continue with GOV.UK Verify, add more documents.')
     expect(page).to have_css 'html[lang=en]'
   end
 

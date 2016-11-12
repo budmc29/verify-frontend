@@ -1,27 +1,14 @@
 class AboutController < ApplicationController
-  layout 'start', except: [:choosing_a_company]
+  layout 'slides', except: [:choosing_a_company]
 
   def index
     FEDERATION_REPORTER.report_registration(
-      session[:transaction_simple_id],
+      current_transaction,
       request
     )
   end
 
   def certified_companies
-    @identity_providers = IDENTITY_PROVIDER_DISPLAY_DECORATOR.decorate_collection(identity_providers)
-  end
-
-  def choosing_a_company
-  end
-
-private
-
-  def federation_info
-    SESSION_PROXY.federation_info_for_session(cookies)
-  end
-
-  def identity_providers
-    SESSION_PROXY.identity_providers(cookies)
+    @identity_providers = IDENTITY_PROVIDER_DISPLAY_DECORATOR.decorate_collection(current_identity_providers)
   end
 end

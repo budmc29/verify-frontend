@@ -1,5 +1,7 @@
-(function () {
-   'use strict';
+(function(global) {
+    'use strict';
+    var GOVUK = global.GOVUK || {};
+    var $ = global.jQuery;
 
     function setPiwikVisitorIdCookie () {
         var visitor_id = this.getVisitorId();
@@ -9,7 +11,8 @@
     var trackerUrl = $('#piwik-url').text(),
         siteId,
         customUrl,
-        piwikAnalyticsQueue;
+        piwikAnalyticsQueue,
+        enTitle;
 
     if(!trackerUrl) {
         return;
@@ -17,9 +20,10 @@
 
     siteId = $('#piwik-site-id').text();
     customUrl = $('#piwik-custom-url').text();
+    enTitle = $('meta[name="verify|title"]').attr("content") + " - GOV.UK Verify - GOV.UK";
 
     piwikAnalyticsQueue = [
-      ['setDocumentTitle', document.title ],
+      ['setDocumentTitle', enTitle ],
       ['trackPageView'],
       ['enableLinkTracking'],
       [setPiwikVisitorIdCookie],
@@ -32,5 +36,5 @@
       piwikAnalyticsQueue.unshift(['setCustomUrl', customUrl]);
     }
 
-    window._paq = piwikAnalyticsQueue;
-})();
+    global._paq = piwikAnalyticsQueue;
+})(window);

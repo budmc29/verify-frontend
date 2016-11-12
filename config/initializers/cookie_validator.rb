@@ -1,2 +1,0 @@
-session_cookie_duration_in_hours = CONFIG.session_cookie_duration
-COOKIE_VALIDATOR = CookieValidator.new(Integer(session_cookie_duration_in_hours))

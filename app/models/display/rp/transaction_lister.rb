@@ -14,6 +14,14 @@ module Display
       end
 
       class NoTransactions
+        def name_homepage
+          []
+        end
+
+        def name_only
+          []
+        end
+
         def any?
           false
         end

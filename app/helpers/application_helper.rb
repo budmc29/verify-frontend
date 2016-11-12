@@ -1,4 +1,12 @@
 module ApplicationHelper
+  def page_title(title_key, locale_data = {})
+    content_for :page_title, t(title_key, locale_data)
+    content_for :page_title_in_english, t(title_key, locale_data.merge(locale: :en))
+    content_for :head do
+      tag('meta', name: 'verify|title', content: content_for(:page_title_in_english))
+    end
+  end
+
   def feedback_source
     content_for(:feedback_source) || ""
   end
@@ -16,7 +24,7 @@ module ApplicationHelper
         idsite: public_piwik.site_id,
         rec: 1,
         rand: Random.rand(2**32 - 1),
-        action_name: content_for(:page_title),
+        action_name: "#{content_for(:page_title_in_english)} - GOV.UK Verify - GOV.UK",
     }
     hash[:url] = piwik_custom_url if piwik_custom_url?
     hash.to_query
@@ -31,14 +39,16 @@ module ApplicationHelper
   end
 
   def hidden_form_question_class
-    [form_question_class, 'panel-indent', 'js-hidden'].join(' ')
-  end
-
-  def fingerprint_path
-    FINGERPRINT_CONFIG.endpoint
+    [form_question_class, 'panel', 'panel-border-narrow', 'js-hidden'].join(' ')
   end
 
   def idp_tagline(identity_provider)
     identity_provider.display_name + (identity_provider.tagline.nil? ? '' : ": #{identity_provider.tagline}")
+  end
+
+  def button_link_to text, path, options = {}
+    options[:class] = [options[:class], 'button'].compact.join(' ')
+    options[:role] = 'button'
+    link_to text, path, options
   end
 end

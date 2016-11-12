@@ -1,0 +1,11 @@
+<%= page_title 'hub.failed_sign_in.title' %>
+<% content_for :feedback_source, 'FAILED_SIGN_IN_PAGE' %>
+
+<div class="grid-row">
+  <div class="column-two-thirds">
+    <h1 class="heading-xlarge"><%= t 'hub.failed_sign_in.heading', display_name: @idp.display_name %></h1>
+
+    <%= t 'hub.failed_sign_in.reasons_html' %>
+    <%= button_link_to t('hub.failed_sign_in.start_again'), start_path, id: 'startAgain' %>
+  </div>
+</div>

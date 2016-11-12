@@ -1,7 +1,7 @@
 require 'feature_helper'
+require 'api_test_helper'
 require 'mock_piwik_middleware'
-require 'models/cookie_names'
-require 'sinatra/base'
+require 'cookie_names'
 
 RSpec.describe 'When the user visits the start page' do
   let(:request_log) { double(:request_log) }
@@ -30,9 +30,20 @@ RSpec.describe 'When the user visits the start page' do
           'idsite' => '5'
         )
       )
-      set_session_cookies!
+      set_session_and_session_cookies!
       visit '/start'
       expect(page).to have_content 'Sign in with GOV.UK Verify'
+    end
+
+    it 'and in Welsh sends the page title in English to analytics' do
+      expect(request_log).to receive(:log).with(
+        hash_including(
+          'action_name' => 'Start - GOV.UK Verify - GOV.UK',
+          'idsite' => '5'
+        )
+      )
+      set_session_and_session_cookies!
+      visit '/dechrau'
     end
 
     it 'sends a page view with a custom url for error pages' do
@@ -51,7 +62,7 @@ RSpec.describe 'When the user visits the start page' do
 
   context 'when JS is disabled' do
     it 'sends a page view to analytics' do
-      set_session_cookies!
+      set_session_and_session_cookies!
       visit '/start'
       expect(page).to have_content 'Sign in with GOV.UK Verify'
       noscript_image = page.find(:id, 'piwik-noscript-tracker')
@@ -63,6 +74,15 @@ RSpec.describe 'When the user visits the start page' do
       expect(image_src).to match(/rand=\d+/)
       expect(image_src).to match(/action_name=Start\+-\+GOV\.UK\+Verify\+-\+GOV\.UK/)
       expect(image_src).to_not include('url')
+    end
+
+    it 'and in Welsh sends the page title in English to analytics' do
+      set_session_and_session_cookies!
+      visit '/dechrau'
+      noscript_image = page.find(:id, 'piwik-noscript-tracker')
+      expect(noscript_image).to_not be_nil
+      image_src = noscript_image['src']
+      expect(image_src).to match(/action_name=Start\+-\+GOV\.UK\+Verify\+-\+GOV\.UK/)
     end
 
     it 'sends a page view with a custom url for error pages' do

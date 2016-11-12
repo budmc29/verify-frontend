@@ -20,19 +20,43 @@ en:
     redirect_to_idp_warning: redirect-to-idp-warning
     privacy_notice: privacy-notice
     cookies: cookies
+    confirm_your_identity: confirm-your-identity
+    confirmation: confirmation
+    failed_registration: failed-registration
+    failed_sign_in: failed-sign-in
+    other_ways_to_access_service: other-ways-to-access-service
+    forgot_company: forgot-company
+    response_processing: response-processing
+    redirect_to_idp: redirect-to-idp
+    redirect_to_service_signing_in: redirect-to-service/signing-in
+    redirect_to_service_start_again: redirect-to-service/start-again
+    redirect_to_service_error: redirect-to-service/error
+    feedback: feedback
+    feedback_sent: feedback/feedback-sent
+    certified_company_unavailable: certified-company-unavailable/:company
+    further_information: further-information
+    further_information_cancel: further-information/cancel
+    further_information_null_attribute: futher-information/null-attribute
   navigation:
     next: Next
     start_now: Start now
     continue: Continue
     back: Back
   option:
-    no: No
+    "no": "No"
     unknown: I don’t know
-  phase_banner:
-    title: This is a trial service.
-    feedback_message: Your %{feedback_link} will help us to improve it.
-    feedback: feedback
+  cookie_message:
+    message: GOV.UK Verify uses cookies to make the site simpler.
+    link: Find out more about cookies
+  feedback_link:
+    message: Use the %{href} to ask a question, report a problem or suggest an improvement
+    feedback_form: feedback form
+  footer:
+    support_links: Support links
+    help: Help
+    built_by_the: Built by the
   hub:
+    other_ways_title: Other ways to access the service
     other_ways_heading: Other ways to %{other_ways_description}
     start:
       title: Start
@@ -47,12 +71,11 @@ en:
       back: Back
       about_link: start now
       registration_message_html: If you don’t have an identity account, you can %{href}.
-      select_idp: Select %{name}
+      select_idp: Select %{display_name}
+      sign_in_idp: Sign in with %{display_name}
       forgot_company: I can’t remember which company verified me
     cookies:
       title: Cookies
-    feedback:
-      title: Feedback
     privacy_notice:
       title: Privacy notice
     about:
@@ -62,42 +85,51 @@ en:
     about_certified_companies:
       title: About certified companies
       a_certified_company_will_verify: A certified company will verify your identity. They’ve all met security standards set by government.
+      a_certified_company_will_verify_security: You choose from a list of companies certified to verify your identity. They’ve all met security standards set by government.
+      a_certified_company_will_verify_security_start: You start by choosing a company to verify your identity. The companies you choose from have met security standards set by government.
+      ensure_privacy: The certified company doesn’t know which government service you’re accessing, and the government department doesn’t know which company verified your identity. This ensures your privacy.
       no_charge: There’s no charge for this service.
       summary: How companies can verify identities
-      details:
-        p1: These companies can use their own data, and they can access data like credit records. They’re able to check that information from passports and driving licences is correct.
-        p2: Certified companies meet government privacy standards, so you can trust them with your personal information. They won’t share or sell your data for any other purposes without your consent.
-        p3: There won’t be any effect on your credit score.
-        p4: More than one certified company means you choose who verifies your identity, and it means the system overall is stronger.
+      details_html: |
+        <p>These companies can use their own data, and they can access data like credit records. They’re able to check that information from passports and driving licences is correct.</p>
+        <p>Certified companies meet government privacy standards, so you can trust them with your personal information. They won’t share or sell your data for any other purposes without your consent.</p>
+        <p>There won’t be any effect on your credit score.</p>
+        <p>More than one certified company means you choose who verifies your identity, and it means the system overall is stronger.</p>
     about_identity_accounts:
       title: About identity accounts
-      content:
-        p1: Verifying your identity takes about 10 minutes.
-        p2: You’ll then have an identity account with your certified company.
-        p3: You can sign in wherever you see the GOV.UK Verify logo.
+      content_html: |
+        <p>Verifying your identity takes about 10 minutes.</p>
+        <p>You’ll then have an identity account with your certified company.</p>
+        <p>You can sign in wherever you see the GOV.UK Verify logo.</p>
       summary: Where you can use your identity account
       details: "GOV.UK Verify is a new scheme, and new services are joining all the time. The current services are:"
     about_choosing_a_company:
       title: About choosing a company
       heading: Finding the right company to verify you
-      p1: Certified companies have different ways to verify identities, for example by checking identity documents, or providing an app.
-      p2: We’ll now ask you some questions to check which companies can verify you.
+      content_html: |
+        <p>Certified companies have different ways to verify identities, for example by checking identity documents, or providing an app.</p>
+        <p>We’ll now ask you some questions to check which companies can verify you.</p>
     select_documents:
       title: Select all the documents you have
-      heading: Certified companies use information from different identity documents to verify you.
+      explanation: Certified companies use information from different identity documents to verify you.
+      no_documents_message: Your document choices have been set to ‘no’.
       legend: Do you have these documents with you?
       documents_option_yes: 'Yes'
       question:
-        driving_licence: UK photocard driving licence (excluding Northern Ireland)
+        driving_licence: Great Britain (GB) photocard driving licence (full or provisional)
+        ni_driving_licence: Northern Ireland (NI) photocard driving licence (full or provisional)
         passport: UK passport
-        non_uk_id_document: Identity document from another country (passport, ID card or driving licence)
+        non_uk_id_document: Non-UK identity document (passport, ID card or driving licence)
+        uk_bank_account_details: UK bank account details
+        debit_card: Debit card
+        credit_card: Credit card
         no_documents: I don’t have any of these documents with me
       errors:
         no_selection: Please select the documents you have
         invalid_selection: Please check your selection
     select_phone:
       title: Do you have a mobile phone or tablet?
-      heading: Certified companies can send security codes to your mobile.
+      explanation: Certified companies can send security codes to your mobile.
       question:
         mobile_phone: Do you have a mobile phone or tablet?
         mobile_phone_option_yes: 'Yes'
@@ -105,11 +137,13 @@ en:
         smart_phone_option_yes: 'Yes'
         landline: Do you have a landline?
         landline_option_yes: 'Yes'
+        smart_phone_subtitle: "Some certified companies ask you to download a free app and use your phone's camera as part of verifying your identity."
       errors:
         no_selection: Please answer all the questions
         invalid_selection: Please check your selection
     will_it_work_for_me:
       title: Can I be verified?
+      heading: About you
       question:
         option_yes: 'Yes'
         above_age_threshold: Are you 20 or over?
@@ -122,15 +156,14 @@ en:
         errors:
           no_selection: Please answer all the questions
     no_mobile_phone:
-      title: Other ways to access the service
       heading: GOV.UK Verify won’t work for you
-      p1: You need a phone or tablet to use GOV.UK Verify. If you don’t have either of these, there are other ways you can %{other_ways_description}.
-      p2: If you don’t have a passport or UK driving licence, you will also need to install an app.
+      content_html: |
+        <p>You need a phone or tablet to use GOV.UK Verify. If you don’t have either of these, there are other ways you can %{other_ways_description}.</p>
+        <p>If you don’t have a passport or UK driving licence, you will also need to install an app.</p>
     may_not_work_if_you_live_overseas:
       title: You might not be able to have your identity verified
       heading: You might not be able to have your identity verified
       try_to_verify: I’d like to try to verify my identity online
-      other_ways_heading: Other ways to %{other_ways_description}
       explanation1: To verify an identity, certified companies access credit records then may ask you to confirm this information. Most people living outside the UK have a limited activity history on their UK credit record, so companies might not be able to check your identity in this way.
       explanation2: Your ‘activity history’ includes how often you use your credit accounts, and if you open accounts such as a mortgage, overdraft or loan.
       what_youll_need: What you’ll need
@@ -161,14 +194,13 @@ en:
       youll_also_need: You’ll also need a UK passport or a UK driving licence.
     will_not_work_without_uk_address:
       title: GOV.UK Verify will not work for you
-      other_ways_heading: Other ways to %{other_ways_description}
       heading: GOV.UK Verify will not work for you
       explanation: You need a current UK address to get your identity verified.
     choose_a_certified_company:
       title: Choose a certified company
       heading: Choose a company
       why_companies: Why there’s a choice of companies
-      choose_idp: "Choose %{name}"
+      choose_idp: "Choose %{display_name}"
       idp_count_html: "Based on your answers, %{company_count} can verify you now:"
       company_html:
         zero: no&nbsp;companies
@@ -176,13 +208,13 @@ en:
         other: "%{count}&nbsp;companies"
       show_all_companies: Companies that are unlikely to verify you
       filtered_idps_message_html: "We’ve filtered out %{company_count}, as they’re unlikely to be able to verify you based on your answers."
-      about_idp: About %{name}
+      about_idp: About %{display_name}
       dialog:
-        information_provided_by: Information provided by %{name}
+        information_provided_by: Information provided by %{display_name}
         close: close
       about:
-        title: About %{name}
-        information_provided_by: Information provided by %{name}
+        title: About %{display_name}
+        information_provided_by: Information provided by %{display_name}
         close: close
     why_companies:
       title: Why there’s a choice of companies
@@ -194,23 +226,133 @@ en:
         <p>Certified companies meet strict government privacy standards, so you can trust them with your information. They won’t use your information for any other purpose without your consent.</p>
         <p>There’s no effect on your credit score.</p>
     unlikely_to_verify:
-      title: Other ways to access the service
       heading: GOV.UK Verify won’t work for you
-      explanation: You need a valid passport, photocard driving licence or national identity card (ID card) to get your identity verified.
+      explanation: Certified companies need at least 1 more document to verify your identity. To continue with GOV.UK Verify, %{add_more_documents_link}.
+      explanation_link_text: add more documents
     redirect_to_idp_warning:
       title: "You'll now be redirected"
-      continue_to_idp: Continue to %{name}
-      recommended:
-        p1: You’ll now verify your identity on %{name}’s website.
-        p2: They’ll give you an identity account you can use wherever you see the GOV.UK Verify logo.
+      continue_to_idp: Continue to %{display_name}
+      recommended_html: |
+        <p>You’ll now verify your identity on %{display_name}’s website.</p>
+        <p>They’ll give you an identity account you can use wherever you see the GOV.UK Verify logo.</p>
       non_recommended:
-        requirements: "To be verified with %{name}, you’ll need:"
+        requirements: "To be verified with %{display_name}, you’ll need:"
       other_ways_link: "other ways to %{transaction}"
       no_docs_other_ways_message_html: "%{idp_no_docs_requirement}, there are %{other_ways_link}"
+    confirm_your_identity:
+      title: Confirm your identity
+      use_other_idp: If this isn’t the company that verified you, %{sign_in_link}.
+      sign_in_link_message: sign in with a different certified company
+      need_to_signin_again: In order to %{transaction_name}, you need to sign in again with your certified company. You don’t need to register again.
+    confirmation:
+      title: Your identity has been verified
+      message: You can sign in wherever you see the GOV.UK Verify logo.
+      continue_to_rp: "You can now %{transaction_name}."
+      heading: "%{display_name} has verified your identity"
+    failed_registration:
+      title: Unable to verify your identity
+      heading: "%{display_name} was unable to verify your identity"
+      contact_details_intro: "Contact %{display_name} for more information"
+      try_another_company: Try another certified company
+      other_ways_link: "Other ways to access %{transaction_name}"
+      reasons_html: |
+        <p>There are a few reasons why this might happen, including:</p>
+        <ul class="list list-bullet">
+          <li>you’ve recently had a change in your circumstances, and they aren’t updated online</li>
+          <li>the certified company doesn’t have access to enough information about you</li>
+        </ul>
+      what_to_do_next_intro: "You can try the following:"
+      what_to_do_next: "What to do next"
+      problems_verifying_your_identity: Problems verifying your identity
+      continue_heading: "Continue to %{transaction_name}"
+      continue_idp_text: "%{display_name} was unable to verify your identity, but you can still submit your application."
+      continue_text: "Continue to %{rp_name} to find out how."
+    failed_sign_in:
+      title: Unable to sign you in
+      heading: "%{display_name} couldn’t sign you in"
+      reasons_html: |
+        <p>You may have selected the wrong company. Check your emails and text messages for confirmation of who verified you.</p>
+        <p>You can be verified by another company at any time. You won’t lose any data on GOV.UK services you’ve used.</p>
+      start_again: "Start again"
+    response_processing:
+      title: Please wait
+      heading: "%{rp_name} is processing your details"
+      bear_with_us: "This may take a few seconds, please bear with us."
+      matching_error:
+        problem: "Sorry, %{rp_name} is having technical problems."
+        start_again_link: start again
+        start_again_message_html: "Please %{start_again_link} in a few minutes by signing in with your certified company."
+        other_ways: "If you continue having problems, there are others ways to %{other_ways_description}."
+    forgot_company:
+      title: Advice for forgotten company
+    redirect_to_service:
+      heading: Continue to next step
+      signing_in:
+        title: "Please wait. Signing you in"
+        transition_heading: "%{rp_name} is processing your details"
+      start_again:
+        title: "Please wait. Starting again."
+        transition_heading: "Starting again"
+      no_javascript: Because Javascript is not enabled on your browser, you must press the continue button
+      please_wait: This may take a few seconds, please bear with us.
+      loading: "Loading…"
+    redirect_to_idp:
+      title: Loading
+      heading: Continue to next step
+      description: Because Javascript is not enabled on your browser, you must press the continue button
+    feedback:
+      title: Feedback
+      heading: Send your feedback to GOV.UK Verify
+      introduction_html: |
+        <p>Use this form to ask a question, report a problem or suggest an improvement GOV.UK Verify can make.</p>
+        <p><strong>Don't include any personal or financial information like your National Insurance number or credit card details.</strong></p>
+      request_reply: Leave your details below if you'd like a response from GOV.UK Verify.
+      consent_message_html: By sending this message, you consent to us using your information as detailed in the %{href}.
+      privacy_notice_link: privacy notice
+      character_count_message: " characters remaining %{limit_message}"
+      character_limit_message: (limit is 3000 characters)
+      questions:
+        what: What were you trying to do?
+        details: Please provide details of your question, problem or feedback
+        reply: Do you want a reply?
+        reply_option_yes: "Yes"
+        name: Name
+        email: Email address
+        email_hint: We’ll only use this to reply to your message.
+      errors:
+        heading: There was a problem submitting the form
+        no_selection: Please answer the questions
+        details: Please provide details
+        too_long: This field can be up to %{max_length} characters  #TODO confirm text
+        name: Please enter a name
+        email: Please enter a valid email address
+        send_failure: Unfortunately, we are unable to record your feedback at the moment. Please try again later.
+        reply: Please select an option
+      send_message: Send message
+    feedback_sent:
+      title: Feedback
+      heading: Thank you for your feedback
+      message_email: We've received your message, and we'll reply as soon as possible.
+      session_valid_link: Return to GOV.UK Verify
+      session_not_valid: Your session has timed out.
+      session_not_valid_link: start again
+    certified_company_unavailable:
+      title: This certified company is unavailable
+      sorry: Sorry, %{display_name} is not available.
+      verify_another_company_html: To access government services, you must %{link}.
+      verify_another_company_link: verify your identity with another certified company
+    further_information:
+      title: Enter your %{cycle_three_name}
+      first_time: This is the first time you’ve signed in.
+      help_with_your: Where to find your %{cycle_three_name}
+      cancel: Cancel and return to %{transaction_name}
+      example_text: "Example: %{example}"
+      attribute_validation_message: Enter a valid %{cycle_three_name}
+      null_attribute: I don’t have an %{cycle_three_name}
   errors:
     transaction_list:
       title: Find the service you were using to start again
-      hint: Follow the instructions contained in the email you received
+      hint: Follow the instructions you received.
     cookie_expired:
       title: Your session has timed out
       feedback_message: Use the %{feedback_link} to ask a question, report a problem or suggest an improvement.
@@ -219,7 +361,7 @@ en:
       title: Cookies Missing
       heading: GOV.UK Verify
       access_restriction: GOV.UK Verify can only be accessed from a government service.
-      read_more: 'Read the <a href="https://www.gov.uk/verify">Introduction to GOV.UK Verify</a> for more information.'
+      read_more_html: 'Read the <a href="https://www.gov.uk/verify">Introduction to GOV.UK Verify</a> for more information.'
       enable_cookies: If you can’t access GOV.UK Verify from a service, enable your cookies.
     session_error:
       title: Something went wrong

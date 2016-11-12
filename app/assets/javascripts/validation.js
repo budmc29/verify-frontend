@@ -1,7 +1,9 @@
-(function () {
+(function(global) {
   "use strict";
+  var GOVUK = global.GOVUK || {};
+  var $ = global.jQuery;
 
-  function placeErrorMessages($error, $element) {
+  function placeRadioErrorMessages($error, $element) {
     $error.addClass('validation-message form-group');
     $error.children('a')
       .attr({ href: '#' + $element.attr('id') })
@@ -13,30 +15,41 @@
     $error.children('a').focus();
   }
 
-  var root = this,
-    $ = root.jQuery;
-
-  if(typeof root.GOVUK === 'undefined') { root.GOVUK = {}; }
-
-  root.GOVUK.validation = {
+  GOVUK.validation = {
+    radiosValidation: {
+      focusInvalid: false,
+      errorElement: 'a',
+      wrapper: 'div',
+      errorPlacement: placeRadioErrorMessages
+    },
     init: function (){
       $.validator.setDefaults({
-        focusInvalid: false,
-        errorElement: 'a',
-        wrapper: 'div',
-        errorPlacement: placeErrorMessages,
+        errorElement: 'span',
+        errorPlacement: function($error, $element) {
+          var $label = $('label[for=' + $element.attr('id') + ']');
+          $error.removeClass('error');
+          $error.addClass('error-message');
+          $label.children('.error-message').remove();
+          $label.append($error);
+        },
         highlight: function(element) {
           $(element).closest('.form-group').addClass('error');
         },
         unhighlight: function(element) {
-          $(element).closest('.form-group').removeClass('error');
+          var formGroup = $(element).closest('.form-group');
+          formGroup.removeClass('error');
+          formGroup.find('.error-message').hide();
         },
         ignore: '.js-hidden *'
       });
+      $.validator.methods.email = function( value, element ) {
+        return this.optional( element ) || /^.+@.+\..+$/.test( value );
+      }
     },
     attach: function () {
-      $('.js-validate').validate();
+      $('.js-validate').validate(GOVUK.validation.radiosValidation);
     }
   };
 
-}).call(this);
+  global.GOVUK = GOVUK;
+})(window);

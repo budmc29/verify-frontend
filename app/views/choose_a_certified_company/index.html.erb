@@ -1,4 +1,4 @@
-<% content_for :page_title, t('hub.choose_a_certified_company.title') %>
+<%= page_title 'hub.choose_a_certified_company.title' %>
 <% content_for :feedback_source, 'CHOOSE_A_CERTIFIED_COMPANY_PAGE' %>
 
 <div class="content-inner">
@@ -31,9 +31,9 @@
       </div>
       <details>
         <summary>
-          <span class="summary"><%= t 'hub.choose_a_certified_company.show_all_companies' %><span>
+          <span class="summary"><%= t 'hub.choose_a_certified_company.show_all_companies' %></span>
         </summary>
-        <div class="panel-indent">
+        <div class="panel panel-border-narrow">
           <% @non_recommended_idps.each do |identity_provider| %>
             <%= render partial: 'idp_option', locals: {recommended: false, identity_provider: identity_provider} %>
           <% end %>

@@ -1,17 +1,19 @@
 require 'redirect_with_see_other'
 class ApplicationController < ActionController::Base
+  before_action :validate_session
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   before_action :set_locale
-  before_filter :store_session_id
-  before_filter :store_originating_ip
-  before_action :validate_cookies
+  before_action :store_originating_ip
+  after_action :store_locale_in_cookie, if: -> { request.method == 'GET' }
   helper_method :transactions_list
   helper_method :public_piwik
 
   rescue_from StandardError, with: :something_went_wrong unless Rails.env == 'development'
+  rescue_from Errors::WarningLevelError, with: :something_went_wrong_warn
   rescue_from Api::SessionError, with: :session_error
+  rescue_from Api::UpstreamError, with: :something_went_wrong_warn
   rescue_from Api::SessionTimeoutError, with: :session_timeout
 
   prepend RedirectWithSeeOther
@@ -20,12 +22,28 @@ class ApplicationController < ActionController::Base
     TRANSACTION_LISTER.list
   end
 
+  def current_transaction
+    @current_transaction ||= RP_DISPLAY_REPOSITORY.fetch(current_transaction_simple_id)
+  end
+
+  def current_transaction_simple_id
+    session[:transaction_simple_id]
+  end
+
+  def store_locale_in_cookie
+    cookies.signed[CookieNames::VERIFY_LOCALE] = {
+      value: I18n.locale,
+      httponly: true,
+      secure: Rails.configuration.x.cookies.secure
+    }
+  end
+
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
   end
 
-  def validate_cookies
-    validation = cookie_validator.validate(cookies)
+  def validate_session
+    validation = session_validator.validate(cookies, session)
     unless validation.ok?
       logger.info(validation.message)
       render_error(validation.type, validation.status)
@@ -40,16 +58,29 @@ class ApplicationController < ActionController::Base
     }
   end
 
-  def store_selected_evidence(stage, evidence)
-    stored_selected_evidence[stage] = evidence
+  def selected_answer_store
+    @selected_answer_store ||= SelectedAnswerStore.new(session)
   end
 
-  def stored_selected_evidence
-    session[:selected_evidence] ||= {}
+  def selected_evidence
+    selected_answer_store.selected_evidence
   end
 
-  def selected_evidence_values
-    stored_selected_evidence.values.flatten.map(&:to_sym)
+  def set_journey_hint(idp_entity_id)
+    cookies.encrypted[CookieNames::VERIFY_FRONT_JOURNEY_HINT] = { entity_id: idp_entity_id }.to_json
+  end
+
+  def alternative_name
+    ab_test_cookie = Cookies.parse_json(cookies[CookieNames::AB_TEST])['select_documents_v2']
+    if AB_TESTS['select_documents_v2']
+      AB_TESTS['select_documents_v2'].alternative_name(ab_test_cookie)
+    else
+      'default'
+    end
+  end
+
+  def is_in_b_group?
+    alternative_name == 'select_documents_v2_new_questions_profile_change'
   end
 
 private
@@ -61,14 +92,23 @@ private
   end
 
   def render_error(partial, status)
+    set_locale
     respond_to do |format|
       format.html { render "errors/#{partial}", status: status, layout: 'application' }
       format.json { render json: {}, status: status }
     end
   end
 
-  def cookie_validator
-    COOKIE_VALIDATOR
+  def render_not_found
+    set_locale
+    respond_to do |format|
+      format.html { render 'errors/404', status: 404 }
+      format.json { render json: {}, status: 404 }
+    end
+  end
+
+  def session_validator
+    SESSION_VALIDATOR
   end
 
   def public_piwik
@@ -85,16 +125,55 @@ private
     render_error('session_error', :bad_request)
   end
 
-  def something_went_wrong(exception)
+  def something_went_wrong(exception, status = :internal_server_error)
     logger.error(exception)
-    render_error('something_went_wrong', :internal_server_error)
+    render_error('something_went_wrong', status)
   end
 
-  def store_session_id
-    RequestStore.store[:session_id] = request.cookies[CookieNames::SESSION_ID_COOKIE_NAME]
+  def something_went_wrong_warn(exception)
+    logger.warn(exception)
+    render_error('something_went_wrong', :internal_server_error)
   end
 
   def store_originating_ip
     OriginatingIpStore.store(request)
+  end
+
+  def selected_identity_provider
+    IdentityProvider.from_session(session.fetch(:selected_idp))
+  end
+
+  def current_identity_providers
+    @current_identity_providers ||= session[:identity_providers].map { |obj| IdentityProvider.from_session(obj) }
+  end
+
+  def report_to_analytics(action_name)
+    ANALYTICS_REPORTER.report(request, action_name)
+  end
+
+  def hide_available_languages
+    @hide_available_languages = true
+  end
+
+  def hide_feedback_link
+    @hide_feedback_link = true
+  end
+
+  def select_viewable_idp(entity_id)
+    for_viewable_idp(entity_id) do |decorated_idp|
+      session[:selected_idp] = decorated_idp.identity_provider
+      yield decorated_idp
+    end
+  end
+
+  def for_viewable_idp(entity_id)
+    matching_idp = current_identity_providers.detect { |idp| idp.entity_id == entity_id }
+    idp = IDENTITY_PROVIDER_DISPLAY_DECORATOR.decorate(matching_idp)
+    if idp.viewable?
+      yield idp
+    else
+      logger.error 'Unrecognised IdP simple id'
+      render_not_found
+    end
   end
 end

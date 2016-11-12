@@ -1,7 +1,3 @@
-//= require jquery
-//= require continue_to_idp.js
-//= require mock-ajax
-
 describe('Continue to IDP', function () {
   var $dom,
       $formButton,
@@ -9,10 +5,12 @@ describe('Continue to IDP', function () {
       formSpy,
       html = '<div class="js-continue-to-idp" data-location="/foobar">'
            + '<form class="js-idp-form first-form" action="">'
-           +   '<button type=submit name=IDCorp value="IDCorpDisplayName"></button>'
+           +   '<button type=submit value="IDCorpDisplayName"></button>'
+           +   '<input class=js-entity-id type="hidden" value="idcorp-entity-id" name="company">'
            + '</form>'
            + '<form class="js-idp-form second-form" action="">'
-           +   '<button type=submit name=IDCorpZwei value="IDCorpZweiDisplayName"></button>'
+           +   '<button type=submit value="IDCorpZweiDisplayName"></button>'
+           +   '<input class=js-entity-id type="hidden" value="idcorpzwei-entity-id" name="company">'
            + '</form>'
            + '<form id=post-to-idp>'
            +   '<input name=SAMLRequest type=hidden>'
@@ -25,7 +23,7 @@ describe('Continue to IDP', function () {
   beforeEach(function () {
     $dom = $('<div>'+html+'</div>');
     $(document.body).append($dom);
-    $formButton = $('.js-idp-form button[name=IDCorpZwei]');
+    $formButton = $('.js-idp-form button').eq(1);
     window.GOVUK.signin.attach();
     formSpy = jasmine.createSpy('formSpy')
       .and.callFake(function (e) { e.preventDefault(); });
@@ -35,12 +33,12 @@ describe('Continue to IDP', function () {
   afterEach(function () {
     $dom.remove();
     jasmine.Ajax.uninstall();
-    $(document).off('submit');
+    document.onsubmit = null;
   });
 
   describe('when the form is submitted', function () {
     it('should PUT via AJAX to /foobar', function () {
-      $(document).submit(formSpy);
+      document.onsubmit = formSpy;
       jasmine.Ajax.stubRequest(apiPath);
       $formButton.click();
       jasmine.Ajax.requests.mostRecent().respondWith({
@@ -51,10 +49,10 @@ describe('Continue to IDP', function () {
         })
       });
       expect(jasmine.Ajax.requests.mostRecent().url).toBe(apiPath);
-      expect(jasmine.Ajax.requests.mostRecent().params).toBe('{"entityId":"IDCorpZwei","displayName":"IDCorpZweiDisplayName"}');
+      expect(jasmine.Ajax.requests.mostRecent().params).toBe('{"entityId":"idcorpzwei-entity-id"}');
     });
     it('should populate the SAML request form with the AJAX response and submit it', function () {
-      $(document).submit(formSpy);
+      document.onsubmit = formSpy;
       jasmine.Ajax.stubRequest(apiPath);
 
       $formButton.click();
@@ -62,7 +60,9 @@ describe('Continue to IDP', function () {
         status: 200,
         responseText: JSON.stringify({
           saml_request: 'a-saml-request',
-          location: 'https://www.example.com'
+          location: 'https://www.example.com',
+          hints: ['has_passport', 'not_nonukid'],
+          language_hint: 'en'
         })
       });
       expect(jasmine.Ajax.requests.mostRecent().url).toBe(apiPath);
@@ -70,14 +70,19 @@ describe('Continue to IDP', function () {
 
       expect($samlForm.prop('action')).toBe('https://www.example.com/');
       expect($samlForm.find('input[name=SAMLRequest]').val()).toBe('a-saml-request');
+      expect($samlForm.find('input[name=hint][value=has_passport]').length).toBe(1);
+      expect($samlForm.find('input[name=hint][value=not_nonukid]').length).toBe(1);
+      expect($samlForm.find('input[name=language]').val()).toBe('en');
       expect(formSpy).toHaveBeenCalled();
     });
+
+
     it('should submit IDP choice if AJAX request fails', function () {
       var selectIdpFormSubmitted = [];
-      $(document).submit(function(e) {
+      document.onsubmit = function(e) {
         e.preventDefault();
         selectIdpFormSubmitted.push(e.target.className);
-      });
+      };
       jasmine.Ajax.stubRequest(apiPath);
 
       $formButton.click();

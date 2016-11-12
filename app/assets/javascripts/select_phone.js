@@ -1,8 +1,7 @@
-(function () {
+(function(global) {
   "use strict";
-  var root = this,
-    $ = root.jQuery;
-  if(typeof root.GOVUK === 'undefined') { root.GOVUK = {}; }
+  var GOVUK = global.GOVUK || {};
+  var $ = global.jQuery;
 
   var selectPhone = {
     toggleSecondaryQuestion: function() {
@@ -29,7 +28,7 @@
       selectPhone.$landlineQuestion = $('#landline-question');
       var errorMessage = selectPhone.$form.data('msg');
       if (selectPhone.$form.length === 1) {
-        selectPhone.validator = selectPhone.$form.validate({
+        selectPhone.validator = selectPhone.$form.validate($.extend({}, GOVUK.validation.radiosValidation, {
           rules: {
             'select_phone_form[mobile_phone]': 'required',
             'select_phone_form[smart_phone]': 'required',
@@ -40,12 +39,14 @@
             'select_phone_form[smart_phone]': errorMessage,
             'select_phone_form[landline]': errorMessage
           }
-        });
+        }));
         selectPhone.$form.find('input[name="select_phone_form[mobile_phone]"]').on('click',selectPhone.toggleSecondaryQuestion);
         selectPhone.toggleSecondaryQuestion();
       }
     }
   };
 
-  root.GOVUK.selectPhone = selectPhone;
-}).call(this);
+  GOVUK.selectPhone = selectPhone;
+
+  global.GOVUK = GOVUK;
+})(window);

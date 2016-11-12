@@ -1,9 +1,9 @@
 require 'feature_helper'
-require 'models/cookie_names'
+require 'cookie_names'
 
 RSpec.describe 'When the user visits the about choosing a company page' do
   before(:each) do
-    set_session_cookies!
+    set_session_and_session_cookies!
   end
 
   it 'will include the appropriate feedback source' do
@@ -18,10 +18,10 @@ RSpec.describe 'When the user visits the about choosing a company page' do
     expect(page).to have_content 'Dod o hyd i’r cwmni iawn i’ch dilysu chi'
   end
 
-  it 'will take user to select documents page when user clicks "Continue"' do
+  it 'will take user to will-it-work-for-me page when user clicks "Continue"' do
     visit '/about-choosing-a-company'
 
     click_link 'Continue'
-    expect(page).to have_current_path('/select-documents')
+    expect(page).to have_current_path(will_it_work_for_me_path)
   end
 end

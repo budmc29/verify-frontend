@@ -10,16 +10,16 @@ module Api
 
     def get(path, options = {})
       response = log_request(path, 'get') do
-        client.get("/api" + path, options)
+        client.get(uri(path), options)
       end
       @response_handler.handle_response(response.status, 200, response.to_s)
     end
 
-    def post(path, body, options = {})
+    def post(path, body, options = {}, expected_status = 201)
       response = log_request(path, 'post') do
         client.post(uri(path), body, options)
       end
-      @response_handler.handle_response(response.status, 201, response.to_s)
+      @response_handler.handle_response(response.status, expected_status, response.to_s)
     end
 
     def put(path, body, options = {})
@@ -40,7 +40,7 @@ module Api
     end
 
     def uri(path)
-      "/api" + path
+      '/api' + path
     end
   end
 end

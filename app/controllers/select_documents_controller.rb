@@ -1,32 +1,48 @@
 class SelectDocumentsController < ApplicationController
   def index
-    @form = SelectDocumentsForm.new({})
+    reported_alternative = Cookies.parse_json(cookies[CookieNames::AB_TEST])['select_documents_v2']
+    AbTest.report('select_documents_v2', reported_alternative, request)
+    @form = SelectDocumentsForm.new({}, form_attributes)
+    @is_in_b_group = is_in_b_group?
   end
 
   def select_documents
-    @form = SelectDocumentsForm.new(params['select_documents_form'] || {})
+    @form = SelectDocumentsForm.new(params['select_documents_form'] || {}, form_attributes)
     if @form.valid?
-      ANALYTICS_REPORTER.report(request, 'Select Documents Next')
-      selected_evidence = @form.selected_evidence
-      store_selected_evidence('documents', selected_evidence)
-      if documents_eligibility_checker.any?(selected_evidence_values, available_idps)
+      report_to_analytics('Select Documents Next')
+      selected_answer_store.store_selected_answers('documents', @form.selected_answers)
+      if documents_eligibility_checker.any?(selected_evidence, current_identity_providers)
         redirect_to select_phone_path
       else
         redirect_to unlikely_to_verify_path
       end
     else
+      @is_in_b_group = is_in_b_group?
       flash.now[:errors] = @form.errors.full_messages.join(', ')
       render :index
     end
   end
 
-private
-
-  def available_idps
-    SESSION_PROXY.identity_providers(cookies)
+  def unlikely_to_verify
+    @selected_evidence = selected_evidence
+    @current_identity_providers = current_identity_providers
+    @other_ways_description = current_transaction.other_ways_description
+    @other_ways_text = current_transaction.other_ways_text
   end
 
   def documents_eligibility_checker
-    DOCUMENTS_ELIGIBILITY_CHECKER
+    if is_in_b_group?
+      DOCUMENTS_ELIGIBILITY_CHECKER_B
+    else
+      DOCUMENTS_ELIGIBILITY_CHECKER
+    end
+  end
+
+  def form_attributes
+    if is_in_b_group?
+      [:passport, :driving_licence, :ni_driving_licence, :non_uk_id_document, :uk_bank_account_details, :debit_card, :credit_card]
+    else
+      [:passport, :driving_licence, :ni_driving_licence, :non_uk_id_document]
+    end
   end
 end

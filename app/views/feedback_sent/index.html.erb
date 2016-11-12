@@ -1,0 +1,19 @@
+<% content_for :page_title, t('hub.feedback_sent.title') %>
+<div class="column-two-thirds">
+  <h1 class="heading-xlarge"><%= t 'hub.feedback_sent.heading' %></h1>
+
+  <p>
+    <% if @email_provided %>
+        <%= t 'hub.feedback_sent.message_email'  %>
+    <% end %>
+  </p>
+
+  <p>
+    <% if @session_valid %>
+        <%= link_to t('hub.feedback_sent.session_valid_link'), @link_back_to_verify %>
+    <% else %>
+        <%= t('hub.feedback_sent.session_not_valid') %>
+        <%= render partial: 'errors/transaction_list' %>
+    <% end %>
+  </p>
+</div>

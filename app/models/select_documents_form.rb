@@ -1,20 +1,34 @@
 class SelectDocumentsForm
   include ActiveModel::Model
 
-  attr_reader :driving_licence, :passport, :non_uk_id_document, :no_documents
+  attr_reader :driving_licence, :ni_driving_licence, :passport, :non_uk_id_document, :no_documents, :uk_bank_account_details, :debit_card, :credit_card
   validate :one_must_be_present
   validate :mandatory_fields_present, unless: :all_fields_blank?
   validate :no_contradictory_inputs
 
-  def initialize(hash)
+  def initialize(hash, form_attributes)
+    @ni_driving_licence = hash[:ni_driving_licence]
     @driving_licence = hash[:driving_licence]
     @passport = hash[:passport]
     @non_uk_id_document = hash[:non_uk_id_document]
+    @uk_bank_account_details = hash[:uk_bank_account_details]
+    @debit_card = hash[:debit_card]
+    @credit_card = hash[:credit_card]
     @no_documents = hash[:no_documents]
+    @form_attributes = form_attributes
   end
 
-  def selected_evidence
-    IdpEligibility::Evidence::DOCUMENT_ATTRIBUTES.select { |attr| public_send(attr) == 'true' }
+  def selected_answers
+    answers = {}
+    @form_attributes.each do |attr|
+      result = public_send(attr)
+      if no_documents_checked?
+        answers[attr] = false
+      elsif %w(true false).include?(result)
+        answers[attr] = (result == 'true')
+      end
+    end
+    answers
   end
 
 private
@@ -31,7 +45,7 @@ private
 
   def no_contradictory_inputs
     if no_documents_checked? && any_yes_answers?
-      errors.set(:base, [I18n.t('hub.select_documents.errors.invalid_selection')])
+      errors.add(:base, I18n.t('hub.select_documents.errors.invalid_selection'))
     end
   end
 
@@ -56,7 +70,7 @@ private
   end
 
   def add_documents_error
-    errors.set(:base, [I18n.t('hub.select_documents.errors.no_selection')])
+    errors.add(:base, I18n.t('hub.select_documents.errors.no_selection'))
   end
 
   def field_attributes
@@ -64,6 +78,6 @@ private
   end
 
   def document_attributes
-    [passport, driving_licence, non_uk_id_document]
+    @form_attributes.map { |attr| public_send(attr) }
   end
 end

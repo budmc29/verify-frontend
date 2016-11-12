@@ -1,9 +1,9 @@
 require 'feature_helper'
+require 'api_test_helper'
 
 RSpec.describe 'When the user visits the will it work for me page' do
   before(:each) do
-    set_session_cookies!
-    page.set_rack_session(transaction_simple_id: 'test-rp')
+    set_session_and_session_cookies!
   end
 
   it 'includes the appropriate feedback source' do
@@ -12,21 +12,19 @@ RSpec.describe 'When the user visits the will it work for me page' do
   end
 
   it 'displays the page in Welsh' do
-    visit '/ni-fydd-yn-gweithio-i-mi'
+    visit "/#{I18n.t('routes.will_it_work_for_me', locale: 'cy')}"
     expect(page).to have_title 'Allai i gael fy nilysu? - GOV.UK Verify - GOV.UK'
     expect(page).to have_css 'html[lang=cy]'
   end
 
-  #JS has to be on, so it uses the real browser and query params can be inspected
-  it 'redirects to the choose-a-company page when user is over 20 and is a uk resident', js: true do
-    stub_federation
+  it 'redirects to the select document page when user is over 20 and is a uk resident' do
     visit '/will-it-work-for-me'
 
     choose 'will_it_work_for_me_form_above_age_threshold_true'
     choose 'will_it_work_for_me_form_resident_last_12_months_true'
     click_button 'Continue'
 
-    expect(page).to have_current_path(choose_a_certified_company_path)
+    expect(page).to have_current_path(select_documents_path)
   end
 
   it 'redirects to the why-might-this-not-work-for-me page when user is over 20 and has moved to the uk in the last 12 months' do
@@ -96,7 +94,6 @@ RSpec.describe 'When the user visits the will it work for me page' do
   end
 
   it 'reports to Piwik when the form is valid' do
-    stub_federation
     stub_request(:get, INTERNAL_PIWIK.url).with(query: hash_including({}))
     piwik_request = { 'action_name' => 'Can I be Verified Next' }
 

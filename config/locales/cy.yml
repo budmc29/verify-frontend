@@ -8,7 +8,7 @@ cy:
     about_choosing_a_company: am-ddewis-cwmni
     select_documents: dewis-dogfennau
     select_phone: dewis-ffon
-    will_it_work_for_me: ni-fydd-yn-gweithio-i-mi
+    will_it_work_for_me: a-fydd-yn-gweithio-i-mi
     no_mobile_phone: dim-ffon-symudol
     may_not_work_if_you_live_overseas: efallai-na-fydd-yn-gweithio-os-ydych-yn-byw-dramor
     why_might_this_not_work_for_me: pam-efallai-na-fydd-hyn-yn-gweithio-i-mi
@@ -16,26 +16,50 @@ cy:
     choose_a_certified_company: dewis-cwmni-ardystiedig
     choose_a_certified_company_about: dewis-cwmni-ardystiedig/:company
     why_companies: pam-cwmniau
-    unlikely_to_verify: unlikely-to-verify-cy
-    redirect_to_idp_warning: redirect-to-idp-warning-cy
-    privacy_notice: privacy-notice-cy
-    cookies: cookies-cy
+    unlikely_to_verify: anhebygol-i-ddilysu
+    redirect_to_idp_warning: ailgyfeirio-i-rybudd-idp
+    privacy_notice: hysbysiad-preifatrwydd
+    cookies: cwcis
+    confirm_your_identity: cadarnhau-eich-hunaniaeth
+    confirmation: cadarnhad
+    failed_registration: cofrestru-wedi-methu
+    failed_sign_in: mewngofnodi-wedi-methu
+    other_ways_to_access_service: ffyrdd-eraill-i-gael-mynediad-i'r-gwasanaeth
+    forgot_company: wedi-anghofio-cwmni
+    response_processing: prosesu-ymateb
+    redirect_to_idp: ailgyfeirio-i-idp
+    redirect_to_service_signing_in: ailgyfeirio-i-gwasanaeth/mewngofnodi
+    redirect_to_service_start_again: ailgyfeirio-i-gwasanaeth/dechrau-eto
+    redirect_to_service_error: ailgyfeirio-i-gwasanaeth/gwall
+    feedback: adborth
+    feedback_sent: adborth/adborth-wedi'i-anfon
+    certified_company_unavailable: cwmni-ardystiedig-ddim-ar-gael/:company
+    further_information: gwybodaeth-bellach
+    further_information_cancel: gwybodaeth-bellach/dileu
+    further_information_null_attribute: gwybodaeth-bellach/null-attribute
   navigation:
     next: Nesaf
     start_now: Dechreuwch nawr
     continue: Parhau
     back: Yn ôl
   option:
-    no: Na
+    "no": "Na"
     unknown: Ddim yn gwybod
-  phase_banner:
-    title: Mae hwn yn wasanaeth newydd.
-    feedback_message: Bydd eich %{feedback_link} yn ein helpu i wella.
-    feedback: adborth
+  cookie_message:
+    message: Mae GOV.UK Verify yn defnyddio cwcis i wneud y safle'n symlach.
+    link: Darganfyddwch fwy am gwcis
   translation_in_progress_banner:
     message: Mae GOV.UK Verify wrthi’n cael ei gyfieithu i’r Gymraeg. Rydym yn cyfieithu tudalennau bob wythnos rhwng nawr a diwedd mis Ebrill. Mae eich %{feedback_link} yn ein helpu i wella’r cyfieithiad.
     feedback: adborth
+  feedback_link:
+    message: Defnyddiwch y %{href} i ofyn cwestiwn, hysbysu problem neu awgrymu gwelliant
+    feedback_form: ffurflen adborth
+  footer:
+    support_links: Dolenni cymorth
+    help: Help
+    built_by_the: Adeiladwyd gan yr
   hub:
+    other_ways_title: Ffyrdd eraill i gael mynediad i’r gwasanaeth
     other_ways_heading: Ffyrdd eraill i %{other_ways_description}
     start:
       title: Dechrau
@@ -50,12 +74,11 @@ cy:
       back: Yn ôl
       about_link: Dechreuwch nawr
       registration_message_html: Os nad oes gennych gyfrif hunaniaeth, gallwch %{href}.
-      select_idp: Ddewis %{name}
+      select_idp: Ddewis %{display_name}
+      sign_in_idp: Llofnodi i mewn gyda %{display_name}
       forgot_company: Ni allaf gofio pa gwmni wnaeth fy nilysu
     cookies:
       title: Cwcis
-    feedback:
-      title: Adborth
     privacy_notice:
       title: Hysbysiad preifatrwydd
     about:
@@ -65,42 +88,51 @@ cy:
     about_certified_companies:
       title: Am gwmnïau ardystiedig
       a_certified_company_will_verify: Bydd cwmni ardystiedig yn gwirio eich hunaniaeth. Maent i gyd wedi bodloni safonau diogelwch a osodir gan y llywodraeth.
+      a_certified_company_will_verify_security: Rydych yn dewis o restr o gwmnïau ardystiedig i ddilysu eich hunaniaeth. Maent i gyd wedi cwrdd â safonnau diogelwch a osodwyd gan y llywodraeth.
+      a_certified_company_will_verify_security_start: Rydych yn dechrau drwy ddewis cwmni i ddilysu eich hunaniaeth. Mae’r cwmnïau rydych yn dewis ohonnynt wedi cwrdd â safonnau diogelwch a osodwyd gan y llywodraeth.
+      ensure_privacy: Nid yw’r cwmni ardystiedig yn gwybod pa wasanaeth o’r llywodraeth rydych yn ei ddefnyddio ac nid yw’r adran o’r llywodraeth yn gwybod pa gwmni wnaeth ddilysu eich hunaniaeth. Mae hyn yn sicrhau eich preifatrwydd.
       no_charge: Nid oes tâl am y gwasanaeth hwn.
       summary: Sut y gall cwmnïau wirio hunaniaeth
-      details:
-        p1: Gall y cwmnïau hyn ddefnyddio eu data eu hunain, a gallant gael mynediad at ddata fel cofnodion credyd. Maent yn gallu gwirio bod gwybodaeth o basbortau a thrwyddedau gyrru yn gywir.
-        p2: Mae cwmnïau ardystiedig yn bodloni safonau preifatrwydd y llywodraeth, felly gallwch ymddiried ynddynt gyda’ch gwybodaeth bersonol. Ni fyddant yn rhannu neu werthu eich data at unrhyw ddibenion eraill heb eich caniatâd.
-        p3: Ni fydd unrhyw effaith ar eich sgôr credyd.
-        p4: Mae mwy nag un cwmni ardystiedig yn golygu eich bod chi’n dewis pwy sy’n dilysu eich hunaniaeth, ac mae’n golygu bod y system yn ei gyfanrwydd yn gryfach.
+      details_html: |
+        <p>Gall y cwmnïau hyn ddefnyddio eu data eu hunain, a gallant gael mynediad at ddata fel cofnodion credyd. Maent yn gallu gwirio bod gwybodaeth o basbortau a thrwyddedau gyrru yn gywir.</p>
+        <p>Mae cwmnïau ardystiedig yn bodloni safonau preifatrwydd y llywodraeth, felly gallwch ymddiried ynddynt gyda’ch gwybodaeth bersonol. Ni fyddant yn rhannu neu werthu eich data at unrhyw ddibenion eraill heb eich caniatâd.</p>
+        <p>Ni fydd unrhyw effaith ar eich sgôr credyd.</p>
+        <p>Mae mwy nag un cwmni ardystiedig yn golygu eich bod chi’n dewis pwy sy’n dilysu eich hunaniaeth, ac mae’n golygu bod y system yn ei gyfanrwydd yn gryfach.</p>
     about_identity_accounts:
       title: Am gyfrifon hunaniaeth
-      content:
-        p1: Mae dilysu eich hunaniaeth yn cymryd tua 10 munud.
-        p2: Yna bydd gennych gyfrif hunaniaeth gyda’ch cwmni ardystiedig.
-        p3: Gallwch fewngofnodi lle bynnag y byddwch yn gweld logo GOV.UK Verify.
+      content_html: |
+        <p>Mae dilysu eich hunaniaeth yn cymryd tua 10 munud.</p>
+        <p>Yna bydd gennych gyfrif hunaniaeth gyda’ch cwmni ardystiedig.</p>
+        <p>Gallwch fewngofnodi lle bynnag y byddwch yn gweld logo GOV.UK Verify.</p>
       summary: Ble allwch chi ddefnyddio eich cyfrif hunaniaeth
       details: "Mae GOV.UK Verify yn gynllun newydd ac mae gwasanaethau newydd yn ymuno drwy’r amser. Y gwasanaethau presennol yw:"
     about_choosing_a_company:
       title: Am ddewis cwmni
       heading: Dod o hyd i’r cwmni iawn i’ch dilysu chi
-      p1: Mae gan gwmnïau ardystiedig ffyrdd gwahanol o wirio hunaniaeth, er enghraifft trwy wirio dogfennau adnabod neu ddarparu ap.
-      p2: Byddwn nawr yn gofyn ychydig o gwestiynau i chi i edrych pa gwmnïau all eich dilysu.
+      content_html: |
+        <p>Mae gan gwmnïau ardystiedig ffyrdd gwahanol o wirio hunaniaeth, er enghraifft trwy wirio dogfennau adnabod neu ddarparu ap.</p>
+        <p>Byddwn nawr yn gofyn ychydig o gwestiynau i chi i edrych pa gwmnïau all eich dilysu.</p>
     select_documents:
       title: Dewiswch yr holl ddogfennau sydd gennych
-      heading: Mae cwmnïau ardystiedig yn defnyddio gwybodaeth o wahanol ddogfennau hunaniaeth i’ch dilysu.
+      explanation: Mae cwmnïau ardystiedig yn defnyddio gwybodaeth o wahanol ddogfennau hunaniaeth i’ch dilysu.
+      no_documents_message: Mae eich dewisiadau dogfennau wedi cael eu gosod i ‘na’.
       legend: Ydy’r dogfennau hyn gyda chi?
       documents_option_yes: Ydy
       question:
-        driving_licence: Trwydded yrru gyda llun y DU (ac eithrio Gogledd Iwerddon)
+        driving_licence: Trwydded yrru Prydain Fawr (GB) gyda llun (llawn neu dros dro)
+        ni_driving_licence: Trwydded yrru Gogledd Iwerddon (NI) gyda llun (llawn neu dros dro)
         passport: Pasport y DU
-        non_uk_id_document: Dogfen hunaniaeth o wlad arall (pasport, cerdyn ID neu drwydded yrru)
+        non_uk_id_document: Dogfen hunaniaeth sydd ddim o'r DU (pasbort, cerdyn ID neu trwydded yrru)
+        uk_bank_account_details: Manylion cyfrif banc y DU
+        debit_card: Cerdyn debyd
+        credit_card: Cerdyn credyd
         no_documents: Nid oes gennyf y dogfennau hyn gyda mi
       errors:
         no_selection: Dewiswch y dogfennau sydd gennych
         invalid_selection: Edrychwch dros eich dewis
     select_phone:
       title: Oes gennych ffôn symudol neu lechen?
-      heading: Gall cwmnïau ardystiedig anfon codau diogelwch i’ch ffôn symudol.
+      explanation: Gall cwmnïau ardystiedig anfon codau diogelwch i’ch ffôn symudol.
       question:
         mobile_phone: Oes gennych ffôn symudol neu lechen?
         mobile_phone_option_yes: Oes
@@ -108,11 +140,13 @@ cy:
         smart_phone_option_yes: Gallaf
         landline: Oes gennych chi linell daear?
         landline_option_yes: Oes
+        smart_phone_subtitle: "Mae rhai cwmnïau ardystiedig yn gofyn i chi lawrlwytho app am ddim a defnyddio camera eich ffôn fel rhan o ddilysu eich hunaniaeth."
       errors:
         no_selection: Dylech ateb pob cwestiwn
         invalid_selection: Dylech edrych dros eich dewis
     will_it_work_for_me:
       title: Allai i gael fy nilysu?
+      heading: Amdanoch chi
       question:
         option_yes: Ydw
         above_age_threshold: Ydych chi’n 20 oed neu drosodd?
@@ -125,15 +159,14 @@ cy:
         errors:
           no_selection: Dylech ateb pob cwestiwn
     no_mobile_phone:
-      title: Ffyrdd eraill i gael mynediad i’r gwasanaeth
       heading: Ni fydd GOV.UK Verify yn gweithio i chi
-      p1: Rydych angen ffôn neu lechen i ddefnyddio GOV.UK Verify. Os nad oes gennych un o’r rhain, mae ffyrdd eraill y gallwch %{other_ways_description}.
-      p2: Os nad oes gennych basport neu drwydded yrru’r DU byddwch hefyd angen gosod app.
+      content_html: |
+        <p>Rydych angen ffôn neu lechen i ddefnyddio GOV.UK Verify. Os nad oes gennych un o’r rhain, mae ffyrdd eraill y gallwch %{other_ways_description}.</p>
+        <p>Os nad oes gennych basport neu drwydded yrru’r DU byddwch hefyd angen gosod app.</p>
     may_not_work_if_you_live_overseas:
       title: Efallai na fyddwch yn gallu cael eich hunaniaeth wedi’i ddilysu
       heading: Efallai na fyddwch yn gallu cael eich hunaniaeth wedi’i ddilysu
       try_to_verify: Hoffwn roi cynnig ar ddilysu fy hunaniaeth ar-lein
-      other_ways_heading: Ffyrdd eraill i %{other_ways_description}
       explanation1: I ddilysu hunaniaeth, mae cwmnïau ardystiedig yn cael mynediad i gofnodion credyd ac yna gallant ofyn i chi gadarnhau’r wybodaeth hyn. Mae gan y mwyfrif o bobl sy’n byw y tu allan i’r DU hanes gweithgaredd cyfyngedig ar eu cofnod credyd y DU, felly efallai na fydd cwmnïau yn gallu gwirio eich hunaniaeth yn y ffordd hyn.
       explanation2: Mae eich ‘hanes gweithgaredd’ yn cynnwys pa mor aml rydych yn defnyddio eich cyfrifon credyd, ac os ydych yn agor cyfrifon fel morgais, gorddrafft neu fenthyciad.
       what_youll_need: Beth fyddwch ei angen
@@ -164,14 +197,13 @@ cy:
       youll_also_need: Byddwch hefyd angen pasport y DU neu drwydded yrru’r DU.
     will_not_work_without_uk_address:
       title: Ni fydd GOV.UK Verify yn gweithio i chi
-      other_ways_heading: Ffyrdd eraill i %{other_ways_description}
       heading: Ni fydd GOV.UK Verify yn gweithio i chi
       explanation: Rydych angen cyfeiriad presennol yn y DU i gael eich hunaniaeth wedi’i ddilysu.
     choose_a_certified_company:
       title: Dewiswch gwmni ardystiedig
       heading: Dewiswch gwmni
       why_companies: Pam fod dewis o gwmnïau
-      choose_idp: "Dewiswch %{name}"
+      choose_idp: "Dewiswch %{display_name}"
       idp_count_html: "Yn seiliedig ar eich atebion, gall %{company_count} eich dilysu nawr:"
       company_html:
         zero: no&nbsp;cwmni
@@ -180,15 +212,15 @@ cy:
         few: "%{count}&nbsp;o gwmnïau"
         many: "%{count}&nbsp;o gwmnïau"
         other: "%{count}&nbsp;o gwmnïau"
-      show_all_companies: Companies that are unlikely to verify you
+      show_all_companies: Cwmniau sy’n annhebygol o’ch dilysu chi
       filtered_idps_message_html: "Rydym wedi tynnu allan %{company_count}, oherwydd eu bod yn annhebygol o allu eich dilysu yn seiliedig ar eich atebion."
-      about_idp: Am %{name}
+      about_idp: Am %{display_name}
       dialog:
-        information_provided_by: Gwybodaeth a ddarparwyd gan %{name}
+        information_provided_by: Gwybodaeth a ddarparwyd gan %{display_name}
         close: cau
       about:
-        title: Am %{name}
-        information_provided_by: Gwybodaeth a ddarparwyd gan %{name}
+        title: Am %{display_name}
+        information_provided_by: Gwybodaeth a ddarparwyd gan %{display_name}
         close: cau
     why_companies:
       title: Pam fod dewis o gwmnïau
@@ -200,23 +232,133 @@ cy:
         <p>Mae cwmnïau ardystiedig yn bodloni safoau preifatrwydd llym y llywodraeth, felly gallwch ymddiried ynddynt gyda’ch gwybodaeth. Ni fyddant yn defnyddio eich gwybodaeth ar gyfer unrhyw ddibenion eraill heb eich caniatâd.</p>
         <p>Nid oes effaith ar eich sgor credyd.</p>
     unlikely_to_verify:
-      title: Other ways to access the service
-      heading: GOV.UK Verify won’t work for you
-      explanation: You need a valid passport, photocard driving licence or national identity card (ID card) to get your identity verified.
+      heading: Ni fydd GOV.UK Verify yn gweithio i chi
+      explanation: Certified companies need at least 1 more document to verify your identity. To continue with GOV.UK Verify, %{add_more_documents_link}.
+      explanation_link_text: add more documents
     redirect_to_idp_warning:
-      title: "You'll now be redirected - GOV.UK Verify - GOV.UK"
-      continue_to_idp: Continue to %{name}
-      recommended:
-        p1: You’ll now verify your identity on %{name}’s website.
-        p2: They’ll give you an identity account you can use wherever you see the GOV.UK Verify logo.
+      title: "Byddwch nawr yn cael eich ailgyfeirio"
+      continue_to_idp: Parhau i %{display_name}
+      recommended_html: |
+        <p>Byddwch nawr yn dilysu eich hunaniaeth ar wefan %{display_name}.</p>
+        <p>Byddant yn rhoi cyfrif hunaniaeth i chi y gallwch ei ddefnyddio ble bynnag rydych yn gweld logo GOV.UK Verify.</p>
       non_recommended:
-        requirements: "To be verified with %{name}, you’ll need:"
-      other_ways_link: "other ways to %{transaction}"
-      no_docs_other_ways_message_html: "%{idp_no_docs_requirement}, there are %{other_ways_link}"
+        requirements: "I gael eich dilysu gyda %{display_name}, byddwch angen:"
+      other_ways_link: "ffyrdd eraill i %{transaction}"
+      no_docs_other_ways_message_html: "%{idp_no_docs_requirement}, mae %{other_ways_link}"
+    confirm_your_identity:
+      title: Cadarnhau eich hunaniaeth
+      use_other_idp: Os nad hwn yw’r cwmni a wnaeth eich dilysu, %{sign_in_link}.
+      sign_in_link_message: llofnodwch i mewn gyda chwmni ardystiedig gwahanol
+      need_to_signin_again: Er mwyn %{transaction_name}, mae angen i chi lofnodi i mewn eto gyda’ch cwmni ardystiedig. Nid oes angen i chi gofrestru eto.
+    confirmation:
+      title: Mae eich hunaniaeth wedi cael ei ddilysu
+      message: Gallwch fewngofnodi ble bynnag rydych yn gweld y logo GOV.UK Verify.
+      continue_to_rp: "Gallwch nawr ddefnyddio %{transaction_name}."
+      heading: Mae "%{display_name} wedi dilysu eich hunaniaeth"
+    failed_registration:
+      title: Methu dilysu eich hunaniaeth
+      heading: Roedd "%{display_name} yn methu dilysu eich hunaniaeth"
+      contact_details_intro: "Cysylltwch â %{display_name} am fwy o wybodaeth"
+      try_another_company: Rhowch gynnig ar gwmni ardystiedig arall
+      other_ways_link: "Ffyrdd eraill o gael mynediad i %{transaction_name}"
+      reasons_html: |
+        <p>Mae ychydig o resymau pam allai hyn ddigwydd, yn cynnwys:</p>
+        <ul class="list list-bullet">
+          <li>rydych yn ddiweddar wedi cael newid yn eich amgylchiadau, ac nid ydynt wedi cael eu diweddaru ar-lein</li>
+          <li>nid oes gan y cwmni ardystiedig fynediad i ddigon o wybodaeth amdanoch</li>
+        </ul>
+      what_to_do_next_intro: "Gallwch roi cynnig ar y canlynol:"
+      what_to_do_next: "Beth i’w wneud nesaf"
+      problems_verifying_your_identity: Problemau gyda dilysu eich hunaniaeth
+      continue_heading: "Mynd ymlaen i %{transaction_name}"
+      continue_idp_text: "Roedd %{display_name} yn methu dilysu eich hunaniaeth, ond gallwch ddal i anfon eich cais."
+      continue_text: "Mynd ymlaen i %{rp_name} i ddarganfod sut."
+    failed_sign_in:
+      title: Methu eich mewngofnodi
+      heading: Ni all "%{display_name} eich mewngofnodi"
+      reasons_html: |
+        <p>Efallai eich bod wedi dewis y cwmni anghywir. Edrychwch ar eich e-byst a negeseuon testun am gadarnhad o bwy wnaeth eich dilysu.</p>
+        <p>Gallwch gael eich dilysu gan gwmni arall unrhyw bryd. Ni fyddwch yn colli unrhyw ddata ar wasanaethau GOV.UK rydych wedi’u defnyddio.</p>
+      start_again: "Dechrau eto"
+    response_processing:
+      title: Arhoswch
+      heading: Mae "%{rp_name} yn prosesu eich manylion"
+      bear_with_us: "Gallai hyn gymryd ychydig o eiliadau, diolch am eich amynedd."
+      matching_error:
+        problem: "Mae’n ddrwg gennym, mae %{rp_name} yn cael problemau technegol."
+        start_again_link: dechrau eto
+        start_again_message_html: "Dylech %{start_again_link} mewn ychydig o funudau drwy fewngofnodi gyda’ch cwmni ardystiedig."
+        other_ways: "Os byddwch yn parhau i gael problemau, mae ffyrdd eraill i %{other_ways_description}."
+    forgot_company:
+      title: Cyngor ar gyfer cwmni sydd wedi’i anghofio
+    redirect_to_service:
+      heading: "Mynd ymlaen i'r cam nesaf"
+      signing_in:
+        title: "Arhoswch. Yn eich mewngofnodi"
+        transition_heading: "Mae %{rp_name} yn prosesu eich manylion"
+      start_again:
+        title: "Arhoswch. Dechrau eto."
+        transition_heading: "Dechrau eto"
+      no_javascript: "Oherwydd nad yw Javascript wedi'i alluogi ar eich porwr, mae'n rhaid i chi bwyso'r botwm parhau"
+      loading: "Llwytho…"
+      please_wait: "Gall hyn gymryd ychydig o eiliadau, arhoswch gyda ni."
+    redirect_to_idp:
+      title: Llwytho
+      heading: Mynd ymlaen i’r cam nesaf
+      description: Oherwydd nad yw Javascript wedi’i alluogi ar eich porwr, mae’n rhaid i chi bwyso’r botwm parhau
+    feedback:
+      title: Adborth
+      heading: Anfonnwch eich adborth i GOV.UK Verify
+      introduction_html: |
+        <p>Defnyddiwch y ffurflen hon i ofyn cwestiwn, hysbysu problem neu awgrymu gwelliant y gall GOV.UK Verify ei wneud.</p>
+        <p><strong>Peidiwch â chynnwys unrhyw wybodaeth bersonol neu ariannol fel eich rhif Yswiriant Gwladol neu fanylion cerdyn credyd.</strong></p>
+      request_reply: Gadewch eich manylion isod os hoffech gael ymateb gan GOV.UK Verify.
+      consent_message_html: Drwy anfon y neges hon rydych yn rhoi caniatâd i ni ddefnyddio eich gwybodaeth fel a fanylir yn yr %{href}.
+      privacy_notice_link: hysbyseb preifatrwydd
+      character_count_message: " nod yn weddill %{limit_message}"
+      character_limit_message: (y terfyn yw 3000 nod)
+      questions:
+        what: Beth oeddech chi'n ceisio ei wneud?
+        details: Rhowch fanylion eich cwestiwn, problem neu adborth
+        reply: Ydych chi eisiau ateb?
+        reply_option_yes: "Ydw"
+        name: Enw
+        email: Cyfeiriad e-bost
+        email_hint: Byddwn ond yn ei ddefnyddio i ateb eich neges.
+      errors:
+        heading: Roedd problem wrth anfon y ffurflen
+        no_selection: Dylech ateb y cwestiynau
+        details: Dylech roi manylion
+        too_long: Gall y maes hwn fod hyd at %{max_length} nod  #TODO confirm text
+        name: Dylech roi enw
+        email: Dylech roi cyfeiriad e-bost dilys
+        send_failure: Yn anffodus rydym yn methu cofnodi eich adborth ar hyn o bryd. Rhowch gynnig arall yn hwyrach ymlaen.
+        reply: Dylech ddewis opsiwn
+      send_message: Anfon neges
+    feedback_sent:
+      title: Adborth
+      heading: Diolch am eich adborth
+      message_email: Rydym wedi derbyn eich neges a byddwn yn ymateb cyn gynted â phosibl.
+      session_valid_link: Dychwelyd i GOV.UK Verify
+      session_not_valid: Mae eich sesiwn wedi’i amseru allan.
+      session_not_valid_link: ddechrau eto
+    certified_company_unavailable:
+      title: Nid yw'r cwmni ardystiedig hwn ar gael
+      sorry: Mae'n ddrwg gennym, nid yw %{display_name} ar gael.
+      verify_another_company_html: Er mwyn cael mynediad i wasanaethau'r llywodraeth, mae'n rhaid i chi %{link}.
+      verify_another_company_link: ddilysu eich hunaniaeth gyda chwmni ardystiedig arall
+    further_information:
+      title: Rhowch eich %{cycle_three_name}
+      first_time: Hwn yw'r tro cyntaf i chi fewngofnodi.
+      help_with_your: Ble i ddod o hyd i'ch %{cycle_three_name}
+      cancel: Dileu a dychwelyd i %{transaction_name}
+      example_text: "Enghraifft: %{example}"
+      attribute_validation_message: Rhowch %{cycle_three_name} dilys
+      null_attribute: Nid oes gennyf %{cycle_three_name}
   errors:
     transaction_list:
       title: Dod o hyd i’r gwasanaeth rydych yn ei ddefnyddio i ddechrau eto
-      hint: Dilynwch y cyfarwyddiadau sydd yn yr e-bost a gawsoch
+      hint: Dilynnwch y cyfarwyddiadau rydych wedi’u derbyn.
     cookie_expired:
       title: Mae eich sesiwn wedi amseru allan
       feedback_message: Defnyddiwch yr %{feedback_link} i ofyn cwestiwn, hysbysu problem neu awgrymu gwelliant.
@@ -225,7 +367,7 @@ cy:
       title: Cwcis Ar Goll
       heading: GOV.UK Verify
       access_restriction: Gellir ond cael mynediad i GOV.UK Verify o wasanaeth y llywodraeth.
-      read_more: 'Darllenwch y <a href="https://www.gov.uk/verify" hreflang="en">Cyflwyniad i GOV.UK Verify</a> am fwy o wybodaeth.'
+      read_more_html: 'Darllenwch y <a href="https://www.gov.uk/verify" hreflang="en">Cyflwyniad i GOV.UK Verify</a> am fwy o wybodaeth.'
       enable_cookies: Os na allwch gael mynediad i GOV.UK Verify o wasanaeth y llywodraeth, dylech alluogi eich cwcis.
     session_error:
       title: Mae rhywbeth wedi mynd o’i le

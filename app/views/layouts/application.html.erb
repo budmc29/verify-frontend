@@ -2,26 +2,36 @@
 <% content_for :page_title, ' - GOV.UK Verify - GOV.UK' %>
 
 <% content_for :head do %>
-  <!--[if gt IE 8]><!--><%= stylesheet_link_tag 'style' %><!--<![endif]-->
+  <!--[if gt IE 8]><!--><%= stylesheet_link_tag 'style', integrity: true %><!--<![endif]-->
   <!--[if IE 8]><%= stylesheet_link_tag 'style-ie8' %><![endif]-->
   <%= csrf_meta_tags %>
+  <% if content_for?(:meta_refresh) %>
+    <meta http-equiv="refresh" content="<%= yield(:meta_refresh) %>">
+  <% end %>
+<% end %>
+
+<% content_for :cookie_message do %>
+  <p>
+    <%= t 'cookie_message.message' %>
+    <%= link_to t('cookie_message.link'), cookies_path %>
+  </p>
 <% end %>
 
 <% content_for :content do %>
-  <main id="content">
-    <%= render 'shared/phase_banner' %>
+  <main id="content" tabindex="-1">
     <div class="grid-row">
-      <%= render 'shared/available_languages' %>
+      <%= render 'shared/available_languages' unless @hide_available_languages %>
     </div>
     <%= content_for?(:main) ? yield(:main) : yield %>
+    <%= render 'shared/feedback_link' if feedback_source.present? && !@hide_feedback_link %>
   </main>
   <%= render 'shared/piwik' %>
 <% end %>
 
 <% content_for :footer_support_links do %>
-  <h2 class="visuallyhidden">Support links</h2>
+  <h2 class="visuallyhidden"><%= t 'footer.support_links' %></h2>
   <ul>
-    <li><a href="https://gov.uk/help">Help</a></li>
+    <li><a href="https://gov.uk/help" hreflang="en"><%= t 'footer.help' %></a></li>
     <li><%= link_to(t('hub.cookies.title'), cookies_path) %></li>
     <li><%= link_to(t('hub.privacy_notice.title'), privacy_notice_path) %></li>
     <li>
@@ -31,13 +41,13 @@
         <%= link_to(t('hub.feedback.title'), feedback_path) %>
     <% end %>
     </li>
-    <li>Built by the <a href="https://gds.blog.gov.uk">Government Digital Service</a></li>
+    <li><%= t 'footer.built_by_the' %> <a href="https://gds.blog.gov.uk" lang="en" hreflang="en">Government Digital Service</a></li>
   </ul>
 <% end %>
 
 <% content_for :body_end do %>
 
-  <%= javascript_include_tag 'application' %>
+  <%= javascript_include_tag 'application', integrity: true %>
   <%= render 'shared/fingerprint' %>
 
 <% end %>

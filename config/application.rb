@@ -1,3 +1,4 @@
+# coding: utf-8
 require File.expand_path('../boot', __FILE__)
 
 require "rails"
@@ -12,7 +13,10 @@ require "sprockets/railtie"
 # require "rails/test_unit/railtie"
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
+
+
 Bundler.require(*Rails.groups)
+
 
 module VerifyFrontend
   class Application < Rails::Application
@@ -30,11 +34,34 @@ module VerifyFrontend
 
     config.exceptions_app = self.routes
 
-    #remove default rails headers as they are added by reverse proxy
-    config.action_dispatch.default_headers.clear
+    # Add recommended security headers and apply a basic lenient Content Security Policy
+    config.action_dispatch.default_headers = {
+      'X-Frame-Options' => 'DENY',
+      'X-XSS-Protection' => '1; mode=block',
+      'X-Content-Type-Options' => 'nosniff',
+      'Content-Security-Policy' => "default-src 'self'; " +
+        "font-src data:; " +
+        "img-src 'self'; " +
+        "object-src 'none'; " +
+        # the script digests are for the two inline scripts in govuk_template.gem:govuk_template.html.erb
+        # if the scripts in that file change, or more are added, use a command similar to
+        # this to generate the digests:
+        # `echo "'sha256-"$(echo -n "inline javascript text" | openssl dgst -sha256 -binary | openssl enc -base64)"'"`
+        "script-src 'self' 'unsafe-eval' 'sha256-+6WnXIl4mbFTCARd8N3COQmT3bJJmo32N8q8ZSQAIcU=' 'sha256-G29/qSW/JHHANtFhlrZVDZW1HOkCDRc78ggbqwwIJ2g=' 'unsafe-inline'; " +
+        "style-src 'self' 'unsafe-inline'"
+    }
     RouteTranslator.config do |config|
       config.hide_locale = true
       config.available_locales = [:en, :cy]
     end
+
+    # by default rails wraps invalid inputs with <div class="field_with_errors">
+    # we have our own way of styling errors, so we don't need this behaviour:
+    config.action_view.field_error_proc = Proc.new { |html_tag| html_tag }
+
+    # Rails 5 automatically disables submit buttons after they’ve bee clicked on once.
+    # If you go back on our pages it remembers the disabled state, thus breaking the system.
+    # We can turn this functionality off globally.
+    config.action_view.automatically_disable_submit_tag = false
   end
 end

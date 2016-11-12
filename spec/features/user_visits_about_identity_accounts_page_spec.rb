@@ -1,12 +1,13 @@
 require 'feature_helper'
-require 'models/cookie_names'
+require 'api_test_helper'
+require 'cookie_names'
 
 RSpec.describe 'When the user visits the about identity accounts page' do
   let(:simple_id) { 'stub-idp-one' }
   let(:idp_entity_id) { 'http://idcorp.com' }
 
   before(:each) do
-    set_session_cookies!
+    set_session_and_session_cookies!
     stub_transactions_list
   end
 
@@ -27,7 +28,7 @@ RSpec.describe 'When the user visits the about identity accounts page' do
 
     expect(page).to have_content 'Where you can use your identity account'
     expect(page).to have_content 'GOV.UK Verify is a new scheme, and new services are joining all the time. The current services are:'
-    expect(page).to have_content 'Register for an identity profile'
+    expect(page).to have_content 'register for an identity profile'
     expect(page).to have_content 'Register for an identity profile (forceauthn & no cycle3)'
   end
 

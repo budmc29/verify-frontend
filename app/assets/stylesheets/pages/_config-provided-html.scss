@@ -1,0 +1,18 @@
+.other-ways-to-complete-transaction,
+.help-finding-further-information,
+.about-idp-content {
+  strong {
+    font-weight: bold;
+  }
+
+  // scss-lint:disable PlaceholderInExtend
+  ul {
+    @extend .list;
+    @extend .list-bullet;
+  }
+
+  ol {
+    @extend .list;
+    @extend .list-number;
+  }
+}

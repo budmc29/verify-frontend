@@ -1,9 +1,9 @@
 require 'feature_helper'
-require 'models/cookie_names'
+require 'cookie_names'
 
 RSpec.describe 'When the user visits the about page' do
   before(:each) do
-    set_session_cookies!
+    set_session_and_session_cookies!
   end
 
   context 'session cookie contains transaction id' do

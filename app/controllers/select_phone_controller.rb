@@ -6,10 +6,10 @@ class SelectPhoneController < ApplicationController
   def select_phone
     @form = SelectPhoneForm.new(params['select_phone_form'] || {})
     if @form.valid?
-      ANALYTICS_REPORTER.report(request, 'Phone Next')
-      store_selected_evidence('phone', @form.selected_evidence)
-      if idp_eligibility_checker.any?(selected_evidence_values, available_idps)
-        redirect_to will_it_work_for_me_path
+      report_to_analytics('Phone Next')
+      selected_answer_store.store_selected_answers('phone', @form.selected_answers)
+      if idp_eligibility_checker.any?(selected_evidence, current_identity_providers)
+        redirect_to choose_a_certified_company_path
       else
         redirect_to no_mobile_phone_path
       end
@@ -19,13 +19,18 @@ class SelectPhoneController < ApplicationController
     end
   end
 
-private
-
-  def available_idps
-    SESSION_PROXY.identity_providers(cookies)
+  def no_mobile_phone
+    @other_ways_description = current_transaction.other_ways_description
+    @other_ways_text = current_transaction.other_ways_text
   end
 
+private
+
   def idp_eligibility_checker
-    IDP_ELIGIBILITY_CHECKER
+    if is_in_b_group?
+      IDP_ELIGIBILITY_CHECKER_B
+    else
+      IDP_ELIGIBILITY_CHECKER
+    end
   end
 end
